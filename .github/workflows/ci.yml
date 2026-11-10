@@ -14,6 +14,9 @@ jobs:
     # Running forge.py imports modules from scripts/ and would create exactly
     # that cache, so disable bytecode writing for the whole job.
     env:
+      # Windows runners default to cp1252 for stdout; doctor/selftest/ci
+      # print Chinese labels and would raise UnicodeEncodeError.
+      PYTHONIOENCODING: "utf-8"
       PYTHONDONTWRITEBYTECODE: "1"
     strategy:
       fail-fast: false
