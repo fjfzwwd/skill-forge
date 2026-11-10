@@ -10,6 +10,11 @@ on:
 
 jobs:
   forge-gate:
+    # `doctor` scans the tree for __pycache__ and treats it as a failure.
+    # Running forge.py imports modules from scripts/ and would create exactly
+    # that cache, so disable bytecode writing for the whole job.
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
     strategy:
       fail-fast: false
       matrix:
