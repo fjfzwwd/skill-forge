@@ -1,0 +1,76 @@
+suite: trigger-positive
+skill: skill-forge
+version: 1.2.0
+cases:
+  - id: P1
+    prompt: "把这个 skill 结晶一下，里面的统计和校验步骤太啰嗦了"
+    expect_trigger: true
+    expect_contains: ["propose", "IR", "build/"]
+  - id: P2
+    prompt: "SKILL.md 太大了，把确定性步骤抽成脚本"
+    expect_trigger: true
+    expect_contains: ["人审", "不覆盖"]
+  - id: P3
+    prompt: "compile skill / crystallize: same procedure re-interpreted on every run"
+    expect_trigger: true
+    expect_contains: ["compile", "verify"]
+  - id: P4
+    prompt: "技能每次跑结果不一样，怎么提高步骤遵循率？"
+    expect_trigger: true
+    expect_contains: ["owner test", "确定性"]
+  - id: P5
+    prompt: "上架前想压一下这个 skill 的 token，顺便建回归基线"
+    expect_trigger: true
+    expect_contains: ["baseline", "report.md", "doctor"]
+  - id: P6
+    prompt: "帮我自动填这个 skill 的 IR 草案，别让我手写 JSON"
+    expect_trigger: true
+    expect_contains: ["propose", "approve", "人审"]
+  - id: P7
+    prompt: "扫描我整个技能库，按最该结晶的顺序排一下"
+    expect_trigger: true
+    expect_contains: ["batch", "优先级", "只读"]
+  - id: P8
+    prompt: "在 GitHub Actions 里挡住结晶产物和源文档的漂移"
+    expect_trigger: true
+    expect_contains: ["ci", "watch", "verify"]
+  - id: P9
+    prompt: "让 Agent 帮我把 IR 里缺的 run_script 步骤补上"
+    expect_trigger: true
+    expect_contains: ["fill", "PROPOSED", "L3"]
+  - id: P10
+    prompt: "流程还在天天改，能不能先结晶了后面再说"
+    expect_trigger: true
+    expect_contains: ["guard", "NOT_READY", "--force"]
+  - id: P11
+    prompt: "准备上传到技能市场，帮我自检并打个包"
+    expect_trigger: true
+    expect_contains: ["doctor", "package", "MANIFEST"]
+  - id: P12
+    prompt: "第一次 verify 返回 NO_BASELINE 是不是坏了"
+    expect_trigger: true
+    expect_contains: ["--update-baseline", "不会自动创建"]
+  - id: P13
+    prompt: "这个 skill 要调用自带的 Python 脚本，怎么安全地放通"
+    expect_trigger: true
+    expect_contains: ["fill", "--enable-run-script", "elevated_by"]
+  - id: P14
+    prompt: "把这次 measure 的实测数据合并进结晶报告"
+    expect_trigger: true
+    expect_contains: ["report", "report.measured.md", "不进锁"]
+  - id: P15
+    prompt: "解压后的发行包在另一台机器上能跑通吗，帮我验一下"
+    expect_trigger: true
+    expect_contains: ["smoke", "干净目录", "--no-zip"]
+  - id: P16
+    prompt: "结晶前后做个对照，看看 prompt 到底变了多少"
+    expect_trigger: true
+    expect_contains: ["bench", "prompt 体积", "不测"]
+  - id: P17
+    prompt: "给这个 skill 加个自定义 op 插件，算一下风险分"
+    expect_trigger: true
+    expect_contains: ["plugins/", "--enable-plugins", "plugin_ops"]
+  - id: P18
+    prompt: "帮我把 bench 的结果接给外部 eval runner 做真实 A/B"
+    expect_trigger: true
+    expect_contains: ["bench-cases.jsonl", "prompt_before", "NOT_RUN"]

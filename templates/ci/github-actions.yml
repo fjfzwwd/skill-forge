@@ -1,0 +1,52 @@
+# skill-forge CI gate — copy to .github/workflows/skill-forge.yml
+# 把 skill-forge/ 放在仓库根目录；若路径不同，改下面的 FORGE 路径。
+# 零第三方依赖，跨平台矩阵同时验证 Windows / macOS / Linux 与 Python 3.9 / 3.13。
+name: skill-forge gate
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+jobs:
+  forge-gate:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.9', '3.13']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Toolchain self-check
+        shell: bash
+        run: |
+          python skill-forge/scripts/forge.py doctor skill-forge
+          python skill-forge/scripts/forge.py selftest skill-forge
+
+      # Clean-room acceptance: materialises a pristine copy in a temp dir and
+      # runs four example paths, bench, plugin gates and ci from scratch.
+      # --no-zip: a checkout has no dist/ yet; the release job produces it.
+      - name: Clean-room smoke test
+        shell: bash
+        run: |
+          python skill-forge/scripts/forge.py smoke skill-forge --no-zip
+
+      - name: Drift + regression gate
+        shell: bash
+        run: |
+          set -o pipefail
+          python skill-forge/scripts/forge.py ci . --strict --format jsonl | tee forge-ci.jsonl
+
+      - name: Upload gate results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skill-forge-ci-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: forge-ci.jsonl
+          if-no-files-found: ignore

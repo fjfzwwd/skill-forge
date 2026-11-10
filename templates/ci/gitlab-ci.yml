@@ -1,0 +1,17 @@
+# skill-forge CI gate — 合并进 .gitlab-ci.yml 的 stages，或作为独立 job。
+skill-forge:
+  stage: test
+  parallel:
+    matrix:
+      - PYTHON_IMAGE: ["python:3.9-slim", "python:3.13-slim"]
+  image: $PYTHON_IMAGE
+  script:
+    - python skill-forge/scripts/forge.py doctor skill-forge
+    - python skill-forge/scripts/forge.py selftest skill-forge
+    - python skill-forge/scripts/forge.py smoke skill-forge --no-zip
+    - python skill-forge/scripts/forge.py ci . --strict --format jsonl | tee forge-ci.jsonl
+  artifacts:
+    when: always
+    paths:
+      - forge-ci.jsonl
+    expire_in: 1 week

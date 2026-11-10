@@ -1,0 +1,107 @@
+{
+  "version": "1",
+  "target": "notes-audit",
+  "source": "SKILL.md",
+  "source_sha256": "82095079b584383ec90bb77ccbd786c0c5591e954e05880ad7f71db7f882684e",
+  "review_status": "APPROVED",
+  "approved_by": "human",
+  "allow_shell": false,
+  "allow_run_script": false,
+  "gates": [
+    "read_only",
+    "no_network"
+  ],
+  "prohibitions": [
+    "全程只读，不要修改任何文件",
+    "不要联网"
+  ],
+  "kept_for_model": [
+    "根据结构化结果撰写一段巡检结论，说明风险与优先级",
+    "若用户意图不明确，先向用户确认再下结论"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "source": "SKILL.md:L12-L15",
+      "owner": "code",
+      "op": "count_files",
+      "args": {
+        "glob": "notes/**/*.md"
+      },
+      "emit": "md_count",
+      "note": "统计笔记总数"
+    },
+    {
+      "id": "s2",
+      "source": "SKILL.md:L16-L19",
+      "owner": "code",
+      "op": "count_matches",
+      "args": {
+        "glob": "notes/**/*.md",
+        "pattern": "TODO",
+        "mode": "files"
+      },
+      "emit": "todo_hits",
+      "note": "统计含 TODO 的笔记数"
+    },
+    {
+      "id": "s3",
+      "source": "SKILL.md:L20",
+      "owner": "code",
+      "op": "collect",
+      "args": {
+        "glob": "notes/**/*.md",
+        "limit": 20
+      },
+      "emit": "watch_list",
+      "note": "收集需关注的文件列表"
+    },
+    {
+      "id": "s4",
+      "source": "SKILL.md:L21",
+      "owner": "code",
+      "op": "read_json",
+      "args": {
+        "path": "notes/meta.json"
+      },
+      "emit": "config",
+      "note": "读取配置"
+    },
+    {
+      "id": "s5",
+      "source": "SKILL.md:L21",
+      "owner": "code",
+      "op": "json_get",
+      "args": {
+        "from": "config",
+        "key": "owner",
+        "default": "unknown"
+      },
+      "emit": "owner",
+      "note": "取得负责人"
+    },
+    {
+      "id": "s6",
+      "source": "SKILL.md:L22",
+      "owner": "code",
+      "op": "decide",
+      "args": {
+        "rules": [
+          {
+            "when": "todo_hits > 3",
+            "status": "NEEDS_CLEANUP"
+          }
+        ],
+        "else": "OK"
+      },
+      "emit": "status",
+      "note": "固定决策表"
+    },
+    {
+      "id": "s7",
+      "source": "SKILL.md:L23-L24",
+      "owner": "model",
+      "note": "撰写结论并在意图不明确时向用户确认"
+    }
+  ]
+}

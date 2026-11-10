@@ -1,0 +1,44 @@
+{
+  "_hint": "手工 IR 模板（IR v1.1 / 工具 1.2.0）：复制为 <skill_dir>/build/ir.json 后运行 forge compile。也可用 forge propose 自动推断草案 → [forge fill 补语义/插件步骤] → forge approve --yes 签发。每个 code step 必须带 source 行号。target 用 ir.slugify_target(目录名) 规范化。字段说明见 references/ir-schema.md，插件规则见 references/benchmark-and-plugins.md。",
+  "_elevate_hint": "若加 shell / run_script / plugin_* 步骤：推荐走 forge approve --yes --by <姓名> --enable-shell / --enable-run-script / --enable-plugins，签发会写 elevated_by。手写 IR 则必须同时写 approved_by 与同值的 elevated_by，否则 APPROVED 状态会被门禁拒绝；插件还需 plugin_ops 与 plugins_sha256。",
+  "version": "1",
+  "target": "my-skill",
+  "source_sha256": "auto",
+  "review_status": "APPROVED",
+  "approved_by": "human",
+  "allow_shell": false,
+  "allow_run_script": false,
+  "allow_plugins": false,
+  "gates": ["read_only", "no_network"],
+  "prohibitions": ["只读，不修改任何文件"],
+  "kept_for_model": ["根据结构化结果撰写结论"],
+  "steps": [
+    {
+      "id": "s1",
+      "source": "SKILL.md:L12-L15",
+      "owner": "code",
+      "op": "count_files",
+      "args": { "glob": "data/**/*.md" },
+      "emit": "file_count",
+      "note": "统计文件数"
+    },
+    {
+      "id": "s2",
+      "source": "SKILL.md:L18",
+      "owner": "code",
+      "op": "decide",
+      "args": {
+        "rules": [{ "when": "file_count > 10", "status": "NEEDS_REVIEW" }],
+        "else": "OK"
+      },
+      "emit": "status",
+      "note": "固定阈值决策表"
+    },
+    {
+      "id": "s3",
+      "source": "SKILL.md:L20",
+      "owner": "model",
+      "note": "撰写结论并在意图不明确时向用户确认"
+    }
+  ]
+}

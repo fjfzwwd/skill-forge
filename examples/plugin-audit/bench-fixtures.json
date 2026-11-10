@@ -1,0 +1,25 @@
+{
+  "version": "1",
+  "_hint": "plugin-audit 的声明式基准用例：覆盖插件正常路径与插件输出为 0 的路径。",
+  "cases": [
+    {
+      "id": "baseline",
+      "note": "3 份笔记中 2 份命中风险词，权重 2 → 分数 4 → WARN",
+      "expect": {
+        "STATUS": "WARN",
+        "MD_COUNT": "3",
+        "RISK_SCORE": "4"
+      }
+    },
+    {
+      "id": "clean_notes",
+      "note": "移除含风险词的笔记，插件应返回 0 → OK",
+      "remove": ["notes/risk-a.md", "notes/todo-b.md"],
+      "expect": {
+        "STATUS": "OK",
+        "MD_COUNT": "1",
+        "RISK_SCORE": "0"
+      }
+    }
+  ]
+}

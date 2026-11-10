@@ -1,0 +1,50 @@
+{
+  "version": "1",
+  "_hint": "forge bench 的声明式用例。每个 case 在技能目录的临时副本里覆盖/删除文件，再运行生成的 runner，只比对 expect 中声明的键。STATUS=ERROR 表示期望运行器按协议报错。不调用模型。",
+  "cases": [
+    {
+      "id": "baseline",
+      "note": "原始 5 行指标，超过阈值 4，应判 BLOCK",
+      "expect": {
+        "STATUS": "BLOCK",
+        "HAS_METRICS": "true",
+        "CSV_LINES": "6",
+        "METRIC_NAMES": "latency_ms,error_rate,throughput,cache_hit,queue_depth",
+        "RELEASES": "2026.11.10,2026.10.28,2026.09.30",
+        "VALIDATION_OK": "true"
+      }
+    },
+    {
+      "id": "few_rows",
+      "note": "把指标压到 2 行，校验仍通过，应判 OK",
+      "files": {
+        "data/metrics.csv": "name,value,status,owner\na,1,ok,team-a\nb,2,ok,team-a\n"
+      },
+      "expect": {
+        "STATUS": "OK",
+        "CSV_LINES": "3",
+        "METRIC_NAMES": "a,b",
+        "VALIDATION_OK": "true"
+      }
+    },
+    {
+      "id": "missing_column",
+      "note": "缺 status 列，技能自带校验脚本应报告异常并判 BLOCK",
+      "files": {
+        "data/metrics.csv": "name,value,owner\na,1,team-a\nb,2,team-a\n"
+      },
+      "expect": {
+        "STATUS": "BLOCK",
+        "VALIDATION_OK": "false"
+      }
+    },
+    {
+      "id": "no_metrics",
+      "note": "指标文件缺失，运行器必须按结构化协议报 ERROR 而不是抛栈",
+      "remove": ["data/metrics.csv"],
+      "expect": {
+        "STATUS": "ERROR"
+      }
+    }
+  ]
+}

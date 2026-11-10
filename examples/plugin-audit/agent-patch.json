@@ -1,0 +1,49 @@
+{
+  "_hint": "插件机制演示补丁。propose 会自动登记 plugins/ 的白名单与哈希，但 allow_plugins 保持 false；本补丁只补步骤，不放通权限。签发必须由人执行 approve --yes --by <姓名> --enable-plugins。",
+  "by": "claude-opus",
+  "steps_replace": {
+    "s1": {
+      "id": "s1",
+      "source": "SKILL.md:L12",
+      "owner": "code",
+      "op": "count_files",
+      "args": { "glob": "notes/*.md" },
+      "emit": "md_count",
+      "note": "统计笔记文件数"
+    }
+  },
+  "steps_add": [
+    {
+      "id": "agent_list",
+      "source": "SKILL.md:L13",
+      "owner": "code",
+      "op": "collect",
+      "args": { "glob": "notes/*.md", "limit": 20 },
+      "emit": "watch_list",
+      "note": "收集笔记清单"
+    },
+    {
+      "id": "agent_score",
+      "source": "SKILL.md:L14",
+      "owner": "code",
+      "op": "plugin_risk_score",
+      "args": { "weight": 2 },
+      "emit": "risk_score",
+      "note": "调用已声明插件计算风险分（L3，需人审放通）"
+    },
+    {
+      "id": "agent_decide",
+      "source": "SKILL.md:L15",
+      "owner": "code",
+      "op": "decide",
+      "args": {
+        "rules": [ { "when": "risk_score > 2", "status": "WARN" } ],
+        "else": "OK"
+      },
+      "emit": "status",
+      "note": "按阈值判定"
+    }
+  ],
+  "prohibitions_add": [],
+  "kept_for_model_add": []
+}

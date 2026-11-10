@@ -1,0 +1,6 @@
+﻿name,value,status,owner
+latency_ms,182,warn,team-a
+error_rate,0.012,ok,team-a
+throughput,940,ok,team-b
+cache_hit,0.86,warn,team-b
+queue_depth,12,ok,team-a

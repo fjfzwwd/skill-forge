@@ -1,0 +1,346 @@
+{
+  "name": "skill-forge",
+  "version": "1.2.0",
+  "release_date": "2026-11-10",
+  "created_at": "2026-11-10T21:33:41",
+  "file_count": 67,
+  "total_bytes": 389154,
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 11273,
+      "sha256": "33b08cb818411502b97c93942613dac1e7ec40dea8d1cd57a7deeeb0be095b33"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1081,
+      "sha256": "9dd76c00fd2948af2d19b876b875cb6577521b05501e79ed7be366b9fa8b16fb"
+    },
+    {
+      "path": "PRD.md",
+      "bytes": 18012,
+      "sha256": "16ec8196f55b458a0b32f53223944912ef9768e016b20457ffbd6b3b134428a7"
+    },
+    {
+      "path": "README.md",
+      "bytes": 18567,
+      "sha256": "b2b87d1369c3bcdf6064277b4efe0aef62510861d79d488bdffb4d7c859484cc"
+    },
+    {
+      "path": "SKILL.md",
+      "bytes": 9885,
+      "sha256": "0dfc06cf27ab6713898c61df23d90ac619fc4df4439ea74b2423140eb80ca7ad"
+    },
+    {
+      "path": "evals/cases/trigger-negative.yaml",
+      "bytes": 2305,
+      "sha256": "e1ef1e441cc435e5dba6bf7714ae12603a38516c9a4bdee739c15c741303b7f2"
+    },
+    {
+      "path": "evals/cases/trigger-positive.yaml",
+      "bytes": 3111,
+      "sha256": "f333abd0e3b7093d1422f507820344b253eb198b3241f50e84bf70838ce3b333"
+    },
+    {
+      "path": "evals/evals.json",
+      "bytes": 11648,
+      "sha256": "0263649f59ddb081beeb2c58d56cbb23c36b3d9b64462c9d312410a6d1b780a9"
+    },
+    {
+      "path": "examples/data-audit/SKILL.md",
+      "bytes": 1394,
+      "sha256": "faa678b8a52993116e5467984a36969763e8b7af2bfad755fd8d6f14ef097d6e"
+    },
+    {
+      "path": "examples/data-audit/agent-patch.json",
+      "bytes": 3662,
+      "sha256": "21f96b380152b51789e765db36e2e7fad556030fa4943cd1a50fefa97ef6c2dd"
+    },
+    {
+      "path": "examples/data-audit/bench-fixtures.json",
+      "bytes": 1568,
+      "sha256": "aa8c9eb900f27dd842e787b220edf973d022739f51143baee2316546cc155e89"
+    },
+    {
+      "path": "examples/data-audit/data/changelog.txt",
+      "bytes": 120,
+      "sha256": "27d004275f3c5210ee9575c82602d8f02c8c6e5f346648a3cd706574c32e952e"
+    },
+    {
+      "path": "examples/data-audit/data/manifest.json",
+      "bytes": 97,
+      "sha256": "4884540a575e43b2a7736ce073e6689d7dcc205a8d8417eb29641015877565e4"
+    },
+    {
+      "path": "examples/data-audit/data/metrics.csv",
+      "bytes": 158,
+      "sha256": "82ddf829a88a55576a7b0a51d5bce05548afa7e0bd41ea80071c7ac1b4deb7fc"
+    },
+    {
+      "path": "examples/data-audit/scripts/validate.py",
+      "bytes": 887,
+      "sha256": "9790cc297dbd60638cd4c5d711de11ec306a7df00d9056f94d16d6969636f944"
+    },
+    {
+      "path": "examples/notes-audit-auto/SKILL.md",
+      "bytes": 1000,
+      "sha256": "82095079b584383ec90bb77ccbd786c0c5591e954e05880ad7f71db7f882684e"
+    },
+    {
+      "path": "examples/notes-audit-auto/notes/a.md",
+      "bytes": 63,
+      "sha256": "dc27b2e2cc4817ab810a6eab1ea906f76ae21b0727e61803c75e94f03dfacd63"
+    },
+    {
+      "path": "examples/notes-audit-auto/notes/b.md",
+      "bytes": 48,
+      "sha256": "274af5e4c59bd4eb150d7c75df17f115e9841485de0a44bee7c7b72e3a8df747"
+    },
+    {
+      "path": "examples/notes-audit-auto/notes/c.md",
+      "bytes": 36,
+      "sha256": "173da2631611a2823ef3d1cab006129ebf960c7318411ef85e0d7d43d67563ec"
+    },
+    {
+      "path": "examples/notes-audit-auto/notes/d.md",
+      "bytes": 67,
+      "sha256": "f74c7ffe2f31edd2f7155c964c65ef3c3a6aa01327f7e5b8089e275699244f7d"
+    },
+    {
+      "path": "examples/notes-audit-auto/notes/meta.json",
+      "bytes": 72,
+      "sha256": "59859721fb3b1bc9c94335c52cbcb115e2fa770a2d2188dc506f66bf728e4454"
+    },
+    {
+      "path": "examples/notes-audit/SKILL.md",
+      "bytes": 1000,
+      "sha256": "82095079b584383ec90bb77ccbd786c0c5591e954e05880ad7f71db7f882684e"
+    },
+    {
+      "path": "examples/notes-audit/ir.json",
+      "bytes": 2493,
+      "sha256": "53248a5aa0b4fbdcbcfd43cb549c6eb1199623933243864749cafe1515b24fcc"
+    },
+    {
+      "path": "examples/notes-audit/notes/a.md",
+      "bytes": 63,
+      "sha256": "dc27b2e2cc4817ab810a6eab1ea906f76ae21b0727e61803c75e94f03dfacd63"
+    },
+    {
+      "path": "examples/notes-audit/notes/b.md",
+      "bytes": 48,
+      "sha256": "274af5e4c59bd4eb150d7c75df17f115e9841485de0a44bee7c7b72e3a8df747"
+    },
+    {
+      "path": "examples/notes-audit/notes/c.md",
+      "bytes": 36,
+      "sha256": "173da2631611a2823ef3d1cab006129ebf960c7318411ef85e0d7d43d67563ec"
+    },
+    {
+      "path": "examples/notes-audit/notes/d.md",
+      "bytes": 67,
+      "sha256": "f74c7ffe2f31edd2f7155c964c65ef3c3a6aa01327f7e5b8089e275699244f7d"
+    },
+    {
+      "path": "examples/notes-audit/notes/meta.json",
+      "bytes": 72,
+      "sha256": "59859721fb3b1bc9c94335c52cbcb115e2fa770a2d2188dc506f66bf728e4454"
+    },
+    {
+      "path": "examples/plugin-audit/SKILL.md",
+      "bytes": 822,
+      "sha256": "a03da46f96cdeba2d82dfa33781ddfd4c137a1636a544d673306b3c2ab62b8ac"
+    },
+    {
+      "path": "examples/plugin-audit/agent-patch.json",
+      "bytes": 1383,
+      "sha256": "3f0bf0daf95f4038532b5dd4611dc43d2e0540d898b5663e871bea096f6c8646"
+    },
+    {
+      "path": "examples/plugin-audit/bench-fixtures.json",
+      "bytes": 645,
+      "sha256": "844643e6ca3d44abc980e87300bf488cac6efc93eb82c674ec022a2551342ded"
+    },
+    {
+      "path": "examples/plugin-audit/notes/clean.md",
+      "bytes": 26,
+      "sha256": "a4531215056f6b4db5a524dd54a2063d98c99f6d19a431605de154977ff9082b"
+    },
+    {
+      "path": "examples/plugin-audit/notes/risk-a.md",
+      "bytes": 31,
+      "sha256": "d707dc7909089a013710183febc7dc185eb369b14176575db1c4531b44cc19c8"
+    },
+    {
+      "path": "examples/plugin-audit/notes/todo-b.md",
+      "bytes": 25,
+      "sha256": "ad650d18e15648b8e90824015f00be1b1751047a504c1d19727883a1bcbc696c"
+    },
+    {
+      "path": "examples/plugin-audit/plugins/risk_score.py",
+      "bytes": 787,
+      "sha256": "f0cd42d499e8091f14c35fd075598e1775e29339fafc102f809d12c9fc5f76d3"
+    },
+    {
+      "path": "references/agent-authoring.md",
+      "bytes": 7506,
+      "sha256": "597a01f8ed6a1d6a83739d0c0434a52cf4787c06a9b297878df188d5209071f2"
+    },
+    {
+      "path": "references/benchmark-and-plugins.md",
+      "bytes": 5844,
+      "sha256": "8d1734da12259b55f207c784ead3f58a415f89ab8bcfc7247d781e1ff5c7e759"
+    },
+    {
+      "path": "references/ci-integration.md",
+      "bytes": 7026,
+      "sha256": "29a5fb15c19fed35e8c3cbfa9225f2c2cfefff25fb7b7a08f059a313af07d1bc"
+    },
+    {
+      "path": "references/ir-schema.md",
+      "bytes": 11106,
+      "sha256": "16013a1a60175722b690140a0b28843581dfba170b526d5331e84eee6753321b"
+    },
+    {
+      "path": "references/owner-test.md",
+      "bytes": 2861,
+      "sha256": "3193d6a69600ee9e993e76e3cf2fc358159f4ff5d0c0d8144898ca91edd1b152"
+    },
+    {
+      "path": "references/safety-policy.md",
+      "bytes": 7752,
+      "sha256": "9ceba1f7bf230168a77d8cd50defebced9a448c90583796f88881440701db2d9"
+    },
+    {
+      "path": "references/stability-and-measurement.md",
+      "bytes": 5283,
+      "sha256": "5855b8326b4e92f519a15b972ee3e7e9ffd318c58e04b4dfcf2d636f17bd6491"
+    },
+    {
+      "path": "references/structured-output.md",
+      "bytes": 2595,
+      "sha256": "f6a3f99b68b1331298c39a92ac3eaaf01dace41361761fce4f18701e44b21c66"
+    },
+    {
+      "path": "scripts/analyzer.py",
+      "bytes": 4271,
+      "sha256": "386fc5d4911e44bb3ccad84b359cb4993aff9550d7d64556600efe3a2d918423"
+    },
+    {
+      "path": "scripts/batch.py",
+      "bytes": 10420,
+      "sha256": "7b49844726a40cb4d4dc6b752bdea1d2d8a8d810e1c5ddba0a800f33f8d13f71"
+    },
+    {
+      "path": "scripts/bench.py",
+      "bytes": 14082,
+      "sha256": "763341b7bddf86d351a8c17568236c7d543b201a99a92e1b89453e1e1a79788d"
+    },
+    {
+      "path": "scripts/ci.py",
+      "bytes": 4139,
+      "sha256": "e6a26ba355565e53724bb4716e55a7a7202caeb2e5b31f72a5d4cb08d843efb8"
+    },
+    {
+      "path": "scripts/core.py",
+      "bytes": 21524,
+      "sha256": "3a4817408728c58f5c02e8d43dde9f5ef1a9bd474c77c81299c9b8be6fb1ec15"
+    },
+    {
+      "path": "scripts/coverage_probe.py",
+      "bytes": 6928,
+      "sha256": "ad74ab01ae4ea104256e031248ae66c0606c6a07aad0283cdc27b990ceeb2f25"
+    },
+    {
+      "path": "scripts/emitter.py",
+      "bytes": 20883,
+      "sha256": "bcc1d56688a033e26843280e1f7aed73bbc5e57918c918965c86ce87bdb10bff"
+    },
+    {
+      "path": "scripts/forge.py",
+      "bytes": 15482,
+      "sha256": "b18a8bd3df5c44e873a9694115c400a4559609d64a870c73a574d6bbe7eb1892"
+    },
+    {
+      "path": "scripts/ir.py",
+      "bytes": 19583,
+      "sha256": "d1c8e7ceeb026fb57c2782e2c6b250b9a6a72014bc80bb85d492860da09cea22"
+    },
+    {
+      "path": "scripts/oppack.py",
+      "bytes": 9079,
+      "sha256": "b432936cb98dc333f145e1b4f0a308a1f70b109fa70290120c1527408d584a7c"
+    },
+    {
+      "path": "scripts/portability.py",
+      "bytes": 3215,
+      "sha256": "b326257fc77046b5b2ff46d9b5c704dde144cfa90951867511e0f312cc039a77"
+    },
+    {
+      "path": "scripts/proposer.py",
+      "bytes": 22787,
+      "sha256": "23c91d798f0a2aaf5aedb3a6c7e160efda2d9360bdceed7818ebffc1fa6fb936"
+    },
+    {
+      "path": "scripts/release.py",
+      "bytes": 17343,
+      "sha256": "3600fa29dce3124dcbaa5a125d552c83a3e85757738ba68611ac89c5bd37d8bc"
+    },
+    {
+      "path": "scripts/smoke.py",
+      "bytes": 6122,
+      "sha256": "90f788d0c40d115156da367e566d78d57fd73fb0ea4b7c905dbc8c04ca9a1b78"
+    },
+    {
+      "path": "scripts/stability.py",
+      "bytes": 10212,
+      "sha256": "529881f33c8e0f41d9f6cde2bcb856f6a53f89f2614a243b7abd0103b07c6b2d"
+    },
+    {
+      "path": "scripts/verifier.py",
+      "bytes": 4807,
+      "sha256": "b4c0a70281ff493037b4d3fcb8279c7893611adb2185504e7cebf1819a2305a7"
+    },
+    {
+      "path": "scripts/version.py",
+      "bytes": 338,
+      "sha256": "206c16c074da12bd9b8e33069443fe209ce1acf62b9a01694d59f241d7913d50"
+    },
+    {
+      "path": "templates/agent-patch.json",
+      "bytes": 1232,
+      "sha256": "140403d089b1635b8cd2e67030f1d8e842a84c4290f4c44a19a693c358544ad8"
+    },
+    {
+      "path": "templates/ci/github-actions.yml",
+      "bytes": 1721,
+      "sha256": "4f8c7cd8462b88a00c8e14df910cf8e2a230516a346a11443d0ae3e44570d0a4"
+    },
+    {
+      "path": "templates/ci/gitlab-ci.yml",
+      "bytes": 604,
+      "sha256": "3a80a35d23aebc1c07292781776b20a5b3a865413c75a07cb2aab8af51c9a26e"
+    },
+    {
+      "path": "templates/ci/pre-commit.sh",
+      "bytes": 567,
+      "sha256": "8d83c6f7cb912f34fb15f4c5e5e89cf2bf77878fedb9d2f87cd606a0f972d04b"
+    },
+    {
+      "path": "templates/ir.template.json",
+      "bytes": 1829,
+      "sha256": "185313c6bd4fc00c4f65b3da82e5f0b990d54802235e8eef912908abe373ae8e"
+    },
+    {
+      "path": "tests/__init__.py",
+      "bytes": 32,
+      "sha256": "bb1d97a3c3659e1c968e4ad38cc633bf2a2c99bef8cf0b89fc5143c1760adf16"
+    },
+    {
+      "path": "tests/test_forge.py",
+      "bytes": 49429,
+      "sha256": "d3aa8df5fb77e59275145e63398a88c3a9584ae1d3cb63468d0811d3bf2ae8cf"
+    }
+  ],
+  "verify": "python scripts/forge.py doctor . && python scripts/forge.py selftest ."
+}

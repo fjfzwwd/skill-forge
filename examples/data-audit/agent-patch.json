@@ -1,0 +1,113 @@
+{
+  "_hint": "本补丁演示 Agent 补写 propose 无法安全映射的语义步骤。用法：forge propose examples/data-audit → forge fill examples/data-audit --patch examples/data-audit/agent-patch.json → forge approve examples/data-audit --yes --by <姓名> --enable-run-script → forge compile。补丁不含任何权限开关：L3 只能由人审在 approve 阶段放通。",
+  "by": "claude-opus",
+  "description": "数据发布前审计：读取清单与指标 CSV、运行技能自带校验脚本、按阈值判定是否可发布。统计与校验由脚本执行，结论由模型判断。",
+  "steps_remove": ["s3"],
+  "steps_replace": {},
+  "steps_add": [
+    {
+      "id": "agent_has_metrics",
+      "source": "SKILL.md:L14",
+      "owner": "code",
+      "op": "file_exists",
+      "args": { "path": "data/metrics.csv" },
+      "emit": "has_metrics",
+      "note": "检查指标文件是否存在"
+    },
+    {
+      "id": "agent_csv_lines",
+      "source": "SKILL.md:L15",
+      "owner": "code",
+      "op": "count_lines",
+      "args": { "glob": "data/*.csv" },
+      "emit": "csv_lines",
+      "note": "统计 CSV 总行数"
+    },
+    {
+      "id": "agent_rows",
+      "source": "SKILL.md:L16",
+      "owner": "code",
+      "op": "parse_csv",
+      "args": { "path": "data/metrics.csv", "limit": 100 },
+      "emit": "rows",
+      "note": "解析指标记录"
+    },
+    {
+      "id": "agent_names",
+      "source": "SKILL.md:L17",
+      "owner": "code",
+      "op": "pluck",
+      "args": { "from": "rows", "key": "name", "limit": 100 },
+      "emit": "metric_names",
+      "note": "取出指标名称清单"
+    },
+    {
+      "id": "agent_changelog",
+      "source": "SKILL.md:L18",
+      "owner": "code",
+      "op": "read_text",
+      "args": { "path": "data/changelog.txt", "max_bytes": 65536 },
+      "emit": "changelog",
+      "note": "读取变更记录原文"
+    },
+    {
+      "id": "agent_releases",
+      "source": "SKILL.md:L19",
+      "owner": "code",
+      "op": "regex_extract",
+      "args": { "from": "changelog", "pattern": "RELEASE-([0-9.]+)", "group": 1, "limit": 20 },
+      "emit": "releases",
+      "note": "提取发布号"
+    },
+    {
+      "id": "agent_digest",
+      "source": "SKILL.md:L21",
+      "owner": "code",
+      "op": "hash_files",
+      "args": { "glob": "data/*" },
+      "emit": "data_digest",
+      "note": "计算数据汇总哈希用于留痕"
+    },
+    {
+      "id": "agent_validate",
+      "source": "SKILL.md:L20",
+      "owner": "code",
+      "op": "run_script",
+      "args": { "path": "scripts/validate.py", "timeout": 30, "max_bytes": 65536 },
+      "emit": "validation",
+      "note": "运行技能自带校验脚本（L3，需人审放通）"
+    },
+    {
+      "id": "agent_valid_ok",
+      "source": "SKILL.md:L20",
+      "owner": "code",
+      "op": "json_get",
+      "args": { "from": "validation", "key": "ok", "default": false },
+      "emit": "validation_ok",
+      "note": "取校验结果"
+    },
+    {
+      "id": "agent_decide",
+      "source": "SKILL.md:L25",
+      "owner": "code",
+      "op": "decide",
+      "args": {
+        "rules": [
+          { "when": "rows > 4", "status": "BLOCK" },
+          { "when": "validation_ok == false", "status": "BLOCK" }
+        ],
+        "else": "OK"
+      },
+      "emit": "status",
+      "note": "按阈值判定"
+    },
+    {
+      "id": "agent_model",
+      "source": "SKILL.md:L29",
+      "owner": "model",
+      "note": "根据结果向负责人解释风险、给出修复建议、决定是否通知团队。这部分需要判断，不要写死成脚本。"
+    }
+  ],
+  "prohibitions_add": [],
+  "kept_for_model_add": []
+}

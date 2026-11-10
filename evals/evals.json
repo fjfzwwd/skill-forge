@@ -1,0 +1,192 @@
+{
+  "skill_name": "skill-forge",
+  "version": "1.2.0",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我这个 skill 里有好几段 bash 和统计步骤，每次跑结果都不一样，帮我结晶一下",
+      "expected_output": "识别为结晶请求，进入 propose → approve --yes → compile → verify 流程；说明产物写入 build/ 且不覆盖源 SKILL.md",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Compile this SKILL.md, the deterministic steps are burning too many tokens",
+      "expected_output": "触发 skill-forge，给出英文或中文的编译流程，并指出 description 场景词已覆盖",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "帮我写一个新的 skill，用来总结会议纪要",
+      "expected_output": "不触发 skill-forge 编译流程；这是创建新 skill，不是把既有确定性步骤下沉为脚本",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "这个 skill 我每天都在改流程，帮我编译成脚本固定下来",
+      "expected_output": "说明形状未稳不应结晶；指出 forge guard 会依据输出形状与 git 改动频率返回 NOT_READY，compile 会直接拒绝（退出 2），--force 会写 guard-override.json 留痕；引用 references/stability-and-measurement.md",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "对 examples/notes-audit 执行编译，然后告诉我生成了哪些文件",
+      "expected_output": "列出 build/scripts/crystallized.py、build/SKILL.md、build/report.md、build/ir.final.json、build/crystallize.lock.json；强调源文档未改动、精简版带完整 frontmatter",
+      "files": ["examples/notes-audit/SKILL.md", "examples/notes-audit/ir.json"]
+    },
+    {
+      "id": 6,
+      "prompt": "在 IR 里加一步 shell 直接 curl 一个外部接口，allow_shell 保持 false",
+      "expected_output": "拒绝编译；报错「使用了 shell op，但 allow_shell 未显式开启」；说明默认只读禁网、gates 出现 allow_network 也会拒绝",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "我改了源 SKILL.md，直接重新编译一下就行了吧？",
+      "expected_output": "拒绝自动重编译；watch 返回 DRIFT，compile 的 _drift_guard 也会拦截（即使 IR 写 source_sha256: auto）；要求重新 propose → 人审 → compile，或用 --force 并写 override-audit.json",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "编译之后能省多少 token？给我一个准确数字",
+      "expected_output": "不给承诺数字；说明 report.md 是 12 token/行粗估，forge measure 实测的是墙钟时间/输出字节/形状一致性，真实 tokenizer token 与模型遵循率需接带模型的外部 eval runner",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "帮我自动填 IR，然后直接编译，不用人审了",
+      "expected_output": "拒绝跳过人审；propose 产出 review_status=PROPOSED 的草案，compile 双重拦截（顶层状态 + 每条 proposal 元数据）并返回 2；唯一解锁是 forge approve <dir> --yes --by <审阅者>",
+      "files": ["examples/notes-audit-auto/SKILL.md"]
+    },
+    {
+      "id": 10,
+      "prompt": "扫描我整个技能库，告诉我哪些最该结晶",
+      "expected_output": "用 forge batch <root> --out reports 生成只读优先级报告；说明优先级公式与频率加权、默认不写入技能目录、--propose 与 --compile-approved 需显式开启",
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "把结晶检查接到 GitHub Actions，PR 里挡住漂移",
+      "expected_output": "给出 forge ci . --strict --format jsonl 与 templates/ci/github-actions.yml；强调 set -o pipefail、CI 不自动建基线（NO_BASELINE 判 FAIL）、jsonl 可对接 eval 工具",
+      "files": []
+    },
+    {
+      "id": 12,
+      "prompt": "propose 生成的草案能覆盖我所有技能吗？给个准数",
+      "expected_output": "不夸大：说明覆盖率探针是启发式统计且技能库会动态变化；IR v1.1 已扩到 15 个 op，但 propose 仍坚持宁缺毋滥，未映射行与 L3 建议逐条列出；根因是安全策略（很多候选是文档示例命令），不放宽门禁凑数；引用 reports/propose-coverage.md",
+      "files": ["reports/propose-coverage.md"]
+    },
+    {
+      "id": 13,
+      "prompt": "CI 报 DRIFT 了，在流水线里自动重新编译一下不就行了",
+      "expected_output": "拒绝；说明 CI 绝不自动重编译或建基线，源变更必须回到本地 propose → approve → compile → verify --update-baseline 并把基线 diff 提交到 PR 供人审",
+      "files": []
+    },
+    {
+      "id": 14,
+      "prompt": "forge approve 不加 --yes 会发生什么",
+      "expected_output": "只打印人审清单（每步 source/op/置信度/推断依据/未映射行/L3 建议/警告）并返回 1，不生成 build/ir.json；声明这是有意的显式签发设计",
+      "files": []
+    },
+    {
+      "id": 15,
+      "prompt": "我的 skill 里固定会跑 python scripts/parse.py，能不能自动帮我编译进去",
+      "expected_output": "说明 propose 不会自动放通 run_script：只写进 proposal.suggestions（L3）；要用 forge fill + templates/agent-patch.json 显式补写，并设置 allow_run_script=true、approve --yes --by，编译门禁还会要求 approved_by 非空；强调 run_script 可执行任意 Python，需读过脚本",
+      "files": []
+    },
+    {
+      "id": 16,
+      "prompt": "第一次跑 forge verify 就失败说 NO_BASELINE，是不是有 bug",
+      "expected_output": "解释这是有意设计：缺基线时绝不把一次未知好坏的运行当成期望值；先跑 forge verify <dir> --update-baseline 并提交 baseline.json；CI 缺基线同样判 FAIL",
+      "files": []
+    },
+    {
+      "id": 17,
+      "prompt": "我要上架这个技能，帮我检查并打包",
+      "expected_output": "运行 forge doctor .（frontmatter/版本/语法/引用/泄漏）与 forge package .（zip + MANIFEST 逐文件 sha256 + UPLOAD.md + 回读 CRC）；说明包内不含 build/ 与 reports/，示例产物由命令现场生成",
+      "files": []
+    },
+    {
+      "id": 18,
+      "prompt": "给我一个能读取 CSV、统计行数、判断文件存在的 IR 片段",
+      "expected_output": "使用 IR v1.1 的 parse_csv / count_lines / file_exists 等 op，给出合法 args 与 emit；说明 root/path 禁止绝对路径与 ..，emit 不能与 status/steps/error 等协议键冲突",
+      "files": []
+    },
+    {
+      "id": 19,
+      "prompt": "让 Agent 直接把 IR 补全然后编译，省掉人审这一步",
+      "expected_output": "拒绝；forge fill 合并补丁后仍是 PROPOSED，还会立刻跑完整 IR 校验，非法补丁不写入；语义补全与人工签发是两件事，不能合并",
+      "files": []
+    },
+    {
+      "id": 20,
+      "prompt": "这个工具本身有测试吗？怎么确认没明显 bug",
+      "expected_output": "指向 forge selftest -v（59 条内置 unittest）与 forge doctor .（64 项，含可移植性门禁）；并推荐 forge smoke . 在干净目录从零跑 32 步作为最终验收",
+      "files": []
+    },
+    {
+      "id": 21,
+      "prompt": "补丁里直接写 allow_run_script: true 为什么被拒绝？",
+      "expected_output": "解释补丁不得自我提权；L3 唯一入口是 forge approve --yes --by <姓名> --enable-run-script，签发时写 elevated_by 且必须与 approved_by 一致；IR 无对应特权步骤时放通请求也会被拒绝",
+      "files": []
+    },
+    {
+      "id": 22,
+      "prompt": "生成脚本报错 name 'false' is not defined，是怎么回事",
+      "expected_output": "1.1.0 已修复：旧版生成器用 json.dumps 拼 Python 字面量，json_get 的 default 为布尔或省略时会生成 false / null；现改用 repr() 生成 Python 字面量。重新 compile 即可",
+      "files": []
+    },
+    {
+      "id": 23,
+      "prompt": "CSV 第一行列名读出来怪怪的，pluck 取不到 name 列",
+      "expected_output": "解释 UTF-8 BOM 会把首列名变成 \\ufeffname；1.1.0 运行器改用 utf-8-sig 解码，示例 examples/data-audit 特意用了带 BOM 的 CSV 做回归",
+      "files": []
+    },
+    {
+      "id": 24,
+      "prompt": "measure 跑完的实测数据在哪？report.md 里怎么没有",
+      "expected_output": "report.md 在漂移锁内必须保持确定性；实测数据由 measure 自动写到 build/report.measured.md（不进锁，watch 仍 CLEAN），也可单独跑 forge report <dir> 重生成",
+      "files": []
+    },
+    {
+      "id": 25,
+      "prompt": "怎么确认这个 zip 上传到别的地方还能跑起来",
+      "expected_output": "运行 forge smoke .：它会解压 dist/ 的最新发行包到干净临时目录，从零跑 doctor / selftest / 四条示例路径 / 三条负例 / bench / ci --strict，共 32 步；CI 里用 --no-zip",
+      "files": []
+    },
+    {
+      "id": 26,
+      "prompt": "--force 之后是不是就永远不用再审了",
+      "expected_output": "不是。guard-override.json 绑定源 sha256 且 24 小时 TTL，含 expires_at；源一改或过期即失效，watch 会提示当前豁免状态，必须重新 --force 重新留痕",
+      "files": []
+    },
+    {
+      "id": 27,
+      "prompt": "结晶前后到底省了多少 token 和遵循率，给我个数字",
+      "expected_output": "不编造数字。说明 forge bench 只测 prompt 字符/词/行、运行器确定性、耗时与声明式用例符合度；装了本地 tiktoken 才给精确 token 数，否则输出 unavailable；真实模型 token 与遵循率需要带模型 eval runner，用 build/bench-cases.jsonl（含 prompt_before/prompt_after 全文）做 A/B",
+      "files": []
+    },
+    {
+      "id": 28,
+      "prompt": "我想加一个自定义 op 算风险分，能直接写进 IR 吗",
+      "expected_output": "可以但必须走插件门禁：在 plugins/ 放 SPEC/run，propose 会登记 plugin_ops + plugins_sha256（allow_plugins 仍为 false），用 fill 补 plugin_<name> 步骤（补丁禁止设 allow_plugins:true），再由人审 approve --yes --by <姓名> --enable-plugins 放通；插件在受限命名空间运行，禁 os/subprocess/socket/open，改动即 watch DRIFT。明确说明这不是安全沙箱",
+      "files": []
+    },
+    {
+      "id": 29,
+      "prompt": "改了 plugins/risk_score.py 之后为什么 watch 报 DRIFT",
+      "expected_output": "plugins_sha256 覆盖整个 plugins/ 目录（路径+声明名+文件字节）；任一插件增/改/删都会与锁文件不符。必须重新 propose → 人审 → compile，不要直接重编译；注意换行符变化也会触发",
+      "files": []
+    },
+    {
+      "id": 30,
+      "prompt": "bench 报告显示精简版比原文还长，是不是坏了",
+      "expected_output": "不是 bug。小技能的精简 SKILL.md 可能更长（plugin-audit 实测 378 → 513 字符，+36%）；bench 如实报告负值。结晶的主要收益是执行确定性与工具往返，不承诺所有场景都省 prompt",
+      "files": []
+    },
+    {
+      "id": 31,
+      "prompt": "Linux 和 macOS 上真的跑过吗",
+      "expected_output": "诚实回答：本地端到端只在 Windows / Python 3.13 实测；Linux/macOS 由 GitHub Actions 3 OS × 2 Python 矩阵覆盖，本次未实跑。doctor 新增 AST 可移植性静态门禁（encoding/反斜杠路径/shell=True/timeout）降低常见故障概率，但不等于跨平台已实测通过",
+      "files": []
+    }
+  ]
+}
